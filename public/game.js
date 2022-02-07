@@ -1,9 +1,9 @@
 const heading = document.querySelector('#heading');
-const screen = document.querySelector('#screen');
-const context = screen.getContext('2d');
+const canvas = document.querySelector('#canvas');
+const context = canvas.getContext('2d');
 
-const width = screen.width;
-const height = screen.height;
+const width = canvas.width;
+const height = canvas.height;
 
 const snakeColors = ['#aaa','#999','#888','#777','#666','#555','#444','#333','#222','#111'];
 
@@ -22,6 +22,7 @@ function createGame() {
 
   const state = {
     isRunning: false,
+    isOver: false,
     commands: [],
     fruitsEaten: 0,
     snake: {
@@ -80,7 +81,7 @@ function createGame() {
     const nextSnakeHeadPos = getNextSnakeHeadPos(snakeHeadPos);
     
     if (checkLoseCollision(nextSnakeHeadPos)) {
-      state.isRunning = false;
+      state.isOver = true;
       return;
     }
 
@@ -89,7 +90,6 @@ function createGame() {
     if (checkFruitCollision(nextSnakeHeadPos)) {
       console.log('Fruit eaten!');
       state.fruitsEaten++;
-      heading.textContent = `Fruits eaten: ${state.fruitsEaten}`;
       state.fruitPos = createFruit(state.snake.body);
     } else {
       state.snake.body.shift();
@@ -160,33 +160,33 @@ function createGame() {
   }
 
   function start() {
-    heading.textContent = `Fruits eaten: ${state.fruitsEaten}`;
     document.addEventListener('keydown', handleKeyDown);
 
     state.isRunning = true
     const gameInterval = setInterval(() => {
       moveSnake();
 
-      if (!state.isRunning) {
+      if (state.isOver) {
+        state.isRunning = false;
         clearInterval(gameInterval);
         console.log('Game Over');
 
-        heading.textContent = 'Game Over! Press Enter to reset!';
         document.addEventListener('keydown', function(event) {
           if (event.key === 'Enter') {
-            heading.textContent = 'Press any key to start!';
             this.removeEventListener('keydown', arguments.callee);
-            game = createGame();
+            resetPage();
           }
         });
       }
     }, 100);
   }
 
-  document.addEventListener('keydown', function() {
-    this.removeEventListener('keydown', arguments.callee);
-    start();
-  });
+  function addStartListener() {
+    document.addEventListener('keydown', function() {
+      this.removeEventListener('keydown', arguments.callee);
+      start();
+    });
+  }
 
   return {
     state,
@@ -198,7 +198,8 @@ function createGame() {
     checkFruitCollision,
     checkLoseCollision,
     createFruit,
-    start
+    start,
+    addStartListener
   };
 }
 
@@ -208,6 +209,22 @@ function handleKeyDown(event) {
 }
 
 function renderScreen() {
+  renderHeading();
+  renderCanvas();
+  requestAnimationFrame(renderScreen);
+}
+
+function renderHeading() {
+  if (game.state.isOver) {
+    heading.textContent = 'Game Over! Press Enter to reset!';
+  } else if (game.state.isRunning) {
+    heading.textContent = `Fruits eaten: ${game.state.fruitsEaten}`;
+  } else {
+    heading.textContent = 'Press any key to start!';
+  }
+}
+
+function renderCanvas() {
   context.clearRect(0, 0, width, height);
 
   const snakeBody = game.state.snake.body;
@@ -223,9 +240,12 @@ function renderScreen() {
   const fruitPos = game.state.fruitPos;
   context.fillStyle = '#888';
   context.fillRect(fruitPos.x, fruitPos.y, 1, 1);
-
-  requestAnimationFrame(renderScreen);
 }
 
-game = createGame();
+function resetPage() {
+  game = createGame();
+  game.addStartListener();
+}
+
+resetPage();
 renderScreen();
