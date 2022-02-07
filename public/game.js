@@ -84,6 +84,8 @@ function createGame() {
       return;
     }
 
+    state.snake.body.push(nextSnakeHeadPos); 
+
     if (checkFruitCollision(nextSnakeHeadPos)) {
       console.log('Fruit eaten!');
       state.fruitsEaten++;
@@ -92,9 +94,6 @@ function createGame() {
     } else {
       state.snake.body.shift();
     }
-    
-
-    state.snake.body.push(nextSnakeHeadPos); 
   }
 
   function getNextSnakeHeadPos(previousHeadPos) {
