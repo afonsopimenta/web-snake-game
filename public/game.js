@@ -57,7 +57,7 @@ function createGame() {
   function tryAddCommand(command) {
     if (state.commands.length > 1) return;
     if (state.commands.length === 0 && (state.snake.dir === command || state.snake.dir === invertDirection(command))) return;
-    if (state.commands.length === 1 && (state.commands[0] === command || state.commands[0] === invertDirection(command))) return;
+    if (state.commands[state.commands.length - 1] === command || state.commands[state.commands.length - 1] === invertDirection(command)) return;
   
     state.commands.push(command);
   }
@@ -164,7 +164,10 @@ function createGame() {
 
     state.isRunning = true
     const gameInterval = setInterval(() => {
+      console.log(state.commands);
+      
       moveSnake();
+
 
       if (state.isOver) {
         state.isRunning = false;
