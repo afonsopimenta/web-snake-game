@@ -164,10 +164,7 @@ function createGame() {
 
     state.isRunning = true
     const gameInterval = setInterval(() => {
-      console.log(state.commands);
-      
       moveSnake();
-
 
       if (state.isOver) {
         state.isRunning = false;
