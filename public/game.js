@@ -1,4 +1,5 @@
 const heading = document.querySelector('#heading');
+const footer= document.querySelector('#footer');
 const canvas = document.querySelector('#canvas');
 const context = canvas.getContext('2d');
 
@@ -216,11 +217,13 @@ function renderScreen() {
 
 function renderHeading() {
   if (game.state.isOver) {
-    heading.textContent = 'Game Over! Press Enter to reset!';
+    heading.textContent = `Game Over! Score: ${game.state.fruitsEaten}`;
+    footer.textContent = 'Press Enter to reset...';
   } else if (game.state.isRunning) {
     heading.textContent = `Fruits eaten: ${game.state.fruitsEaten}`;
   } else {
-    heading.textContent = 'Press any key to start!';
+    heading.textContent = 'Press any key to start...';
+    footer.textContent= '';
   }
 }
 
