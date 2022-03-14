@@ -46,6 +46,19 @@ function createGame() {
       },
       ArrowLeft: () => {
         tryAddCommand('left');
+      },
+
+      w: () => {
+        tryAddCommand('up');
+      },
+      s: () => {
+        tryAddCommand('down');
+      },
+      a: () => {
+        tryAddCommand('right');
+      },
+      d: () => {
+        tryAddCommand('left');
       }
     };
 
@@ -179,7 +192,7 @@ function createGame() {
           }
         });
       }
-    }, 100);
+    }, 200);
   }
 
   function addStartListener() {
