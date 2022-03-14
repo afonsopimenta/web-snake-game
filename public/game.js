@@ -54,10 +54,10 @@ function createGame() {
       s: () => {
         tryAddCommand('down');
       },
-      a: () => {
+      d: () => {
         tryAddCommand('right');
       },
-      d: () => {
+      a: () => {
         tryAddCommand('left');
       }
     };
