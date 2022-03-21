@@ -192,7 +192,7 @@ function createGame() {
           }
         });
       }
-    }, 100);
+    }, 200);
   }
 
   function addStartListener() {
