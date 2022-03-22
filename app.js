@@ -24,14 +24,20 @@ io.on('connection', socket => {
 
   socket.on('game-over', score => {
     ScoreRecord.findOne({}).sort('-score').exec((err, currentHighScore) => {
+      const scoreRecord = new Score({
+        userID: socket.id,
+        score: score
+      });
+      
       if (err) {
         console.log(err);
         return;
       }
 
-      score.save(err => {
+      scoreRecord.save(err => {
         if (err) {
           console.log(err);
+          return;
         }
       });
 
@@ -48,5 +54,5 @@ io.on('connection', socket => {
 
 const port = process.env.PORT || 3000;
 server.listen(port, () => {
-  console.log(`> Server open on port: ${port}`)
+  console.log(`> Server open on port: ${port}`);
 });
