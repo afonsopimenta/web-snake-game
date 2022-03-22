@@ -7,6 +7,7 @@ import dotenv from 'dotenv';
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
+app.use(express.static('public'));
 dotenv.config();
 
 const dbUser = process.env.DB_USER;
