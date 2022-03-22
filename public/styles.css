@@ -34,4 +34,5 @@ canvas {
   border: 10px solid #aaa;
   background-color: #eee;
   height: 50%;
+  min-height: 250px;
 }
