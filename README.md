@@ -9,4 +9,4 @@ If you want to play the game go to [this website](https://afonsosnake.herokuapp.
 Hope you enjoy it! 😄
 
 ## Download
-In case you want to download the files to test the code for yourself you need to rename the '.env.exemple' file to '.env' and set your own database user and password
+In case you want to download the files to test the code for yourself you need to rename the '.env.example' file to '.env' and set your own database user and password.
